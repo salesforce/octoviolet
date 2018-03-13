@@ -1,0 +1,31 @@
+{
+  "name": "violet-github",
+  "description": "Voice UI for GitHub",
+  "license": "BSD-3-Clause",
+  "version": "0.0.1",
+  "main": "server.js",
+  "keywords": [
+    "voice",
+    "github",
+    "alexa",
+    "github"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/salesforce/violet-github.git"
+  },
+  "scripts": {
+    "start": "node node_modules/nodemon/bin/nodemon.js server.js",
+    "test": "mocha -R spec test.js",
+    "ncu": "node node_modules/npm-check-updates/bin/ncu -u"
+  },
+  "dependencies": {
+    "violet": "0.9.0",
+    "octonode": "0.9.2"
+  },
+  "devDependencies": {
+    "nodemon": "latest",
+    "npm-check-updates": "latest",
+    "mocha": "latest"
+  }
+}
