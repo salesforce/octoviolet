@@ -1,12 +1,13 @@
 'use strict';
 
 const violet = require('violet').script();
+const github = require('./github');
 
-// Alexa, how many Pull Requests did the Salesforce GitHub org get last month?
 violet.respondTo({
-  expecting: "Whats next on my todo",
-  resolve: function(response) {
-    response.say("hello, world");
+  expecting: 'How many repos does the [[org]] org have?',
+  resolve: async function(response) {
+    const num = await github.numPublicRepos(response.get('org'));
+    response.say(`The [[org]] org has ${num} public repos`);
   }
 });
 
