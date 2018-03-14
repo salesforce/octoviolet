@@ -3,6 +3,17 @@
 const violet = require('violet').script();
 const github = require('./github');
 
+violet.addInputTypes({
+  "org": {
+    "type": "AMAZON.LITERAL",
+    "sampleValues": ["salesforce", "force dot com"]
+  },
+  "repo": {
+    "type": "AMAZON.LITERAL",
+    "sampleValues": ["dr cla", "violet conversations", "docker fileimage update"]
+  }
+});
+
 violet.respondTo({
     expecting: 'How many repos does the [[org]] org have?',
     resolve: async function (response) {
