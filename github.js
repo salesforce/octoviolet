@@ -17,7 +17,7 @@ String.prototype.replaceAll = function(search, replacement) {
     return target.split(search).join(replacement);
 };
 
-async function numStarsForProject(repo) {
+function numStarsForProject(repo) {
     var repoWithDashes = repo.replaceAll(" ", "-");
 
     console.info(`Trying ${repoWithDashes}`);
@@ -27,8 +27,8 @@ async function numStarsForProject(repo) {
         return stars[0].length;
     }).catch(function(err) {
         // Try against, but with no spaces
-        if (repo.contains(" ")) {
-            numStarsForProject(repo.replaceAll(" ", "");
+        if (repo.indexOf(' ') !== -1) {
+            return numStarsForProject(repo.replaceAll(" ", ""));
         }
         console.error(`Error (${err}) on "${repo}".stargazersAsync`);
         return -1;

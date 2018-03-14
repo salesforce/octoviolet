@@ -72,3 +72,12 @@ describe('github', () => {
         });
     });
 });
+
+describe('github', () => {
+    describe('numStarsForProject', () => {
+        it('find stars for does not exist', async function() {
+            const num = await github.numStarsForProject('does not exist');
+            assert(num === -1, "Expected doesn't exist error code -1. We get " + num);
+        });
+    });
+});
