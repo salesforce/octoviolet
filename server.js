@@ -4,11 +4,21 @@ const violet = require('violet').script();
 const github = require('./github');
 
 violet.respondTo({
-  expecting: 'How many repos does the [[org]] org have?',
-  resolve: async function(response) {
-    const num = await github.numPublicRepos(response.get('org'));
-    response.say(`The [[org]] org has ${num} public repos`);
-  }
+    expecting: 'How many repos does the [[org]] org have?',
+    resolve: async function (response) {
+        const num = await github.numPublicRepos(response.get('org'));
+        response.say(`The [[org]] org has ${num} public repos`);
+    }
 });
 
-// Alexa, how many stars does the "foo" project have?
+violet.respondTo({
+    expecting: 'Alexa, how many stars does the [[repo]] project have?',
+    resolve: async function (response) {
+        const num = await github.numStarsForProject(response.get('repo'));
+        if (num === -1) {
+            response.say(`[[repo]] not found on github, please try again`);
+        } else {
+            response.say(`[[repo]] has ${num} stars`);
+        }
+    }
+});
