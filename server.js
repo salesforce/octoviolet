@@ -4,18 +4,21 @@ const violet = require('violet').script();
 const github = require('./github');
 
 violet.addInputTypes({
-  "org": {
-    "type": "AMAZON.LITERAL",
-    "sampleValues": ["salesforce", "force dot com"]
-  },
-  "repo": {
-    "type": "AMAZON.LITERAL",
-    "sampleValues": ["dr cla", "violet conversations", "docker fileimage update"]
-  }
+    "org": {
+        "type": "AMAZON.LITERAL",
+        "sampleValues": ["salesforce", "force dot com"]
+    },
+    "repo": {
+        "type": "AMAZON.LITERAL",
+        "sampleValues": ["dr cla", "violet conversations", "docker file image update"]
+    }
 });
 
 violet.respondTo({
-    expecting: 'How many repos does the [[org]] org have?',
+    expecting: [
+        'How many repos does the [[org]] org have?',
+        'How many repos are in the [[org]] org?'
+    ],
     resolve: async function (response) {
         const num = await github.numPublicRepos(response.get('org'));
         response.say(`The [[org]] org has ${num} public repos`);
@@ -23,7 +26,10 @@ violet.respondTo({
 });
 
 violet.respondTo({
-    expecting: 'Alexa, how many stars does the [[repo]] project have?',
+    expecting: [
+        'How many stars does the [[repo]] project have?',
+        'How many stars does the [[repo]] repo have?'
+    ],
     resolve: async function (response) {
         const num = await github.numStarsForProject(response.get('repo'));
         if (num === -1) {
