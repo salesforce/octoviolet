@@ -12,20 +12,6 @@ function tryGetRepo(repo) {
     return github.repo(path.join(defaultOrg, repo));
 }
 
-async function repoExists(ghrepo) {
-    var result = false;
-
-    ghrepo.infoAsync().then(function(err, data, headers) {
-        if (err === null || err === 'undefined') {
-            result = true;
-        }
-    }).catch(function(err) {
-        //result = false;
-    });
-
-    return await result;
-}
-
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.split(search).join(replacement);
@@ -33,29 +19,18 @@ String.prototype.replaceAll = function(search, replacement) {
 
 async function numStarsForProject(repo) {
     var repoWithDashes = repo.replaceAll(" ", "-");
-    var repoWithUnderscores = repo.replaceAll(" ", "_");
-    var repoWithNoSpaces = repo.replaceAll(" ", "");
 
     console.info(`Trying ${repoWithDashes}`);
     var ghrepo = tryGetRepo(repoWithDashes);
-    //console.info(repoExists(ghrepo));
-
-    if (await repoExists(ghrepo) === false) {
-        // TODO: We are screwed we have dashes and underscores mixed
-        console.info(`Trying ${repoWithUnderscores}`);
-        ghrepo = tryGetRepo(repoWithUnderscores);
-    }
-
-    if (await repoExists(ghrepo) === false) {
-        console.info(`Trying ${repoWithNoSpaces}`);
-        ghrepo = tryGetRepo(repoWithNoSpaces);
-    }
 
     return ghrepo.stargazersAsync().then(function(stars) {
         return stars[0].length;
     }).catch(function(err) {
+        // Try against, but with no spaces
+        if (repo.contains(" ")) {
+            numStarsForProject(repo.replaceAll(" ", "");
+        }
         console.error(`Error (${err}) on "${repo}".stargazersAsync`);
-
         return -1;
     });
 }
