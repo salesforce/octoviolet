@@ -5,7 +5,8 @@ const path = require('path');
 const defaultOrg = 'salesforce';
 
 function numPublicRepos(org) {
-    return github.org(org).infoAsync().then(info => info[0].public_repos);
+    const canonicalName = org.replaceAll(" ", "");
+    return github.org(canonicalName).infoAsync().then(info => info[0].public_repos);
 }
 
 function tryGetRepo(repo) {
@@ -13,8 +14,7 @@ function tryGetRepo(repo) {
 }
 
 String.prototype.replaceAll = function(search, replacement) {
-    var target = this;
-    return target.split(search).join(replacement);
+    return this.split(search).join(replacement);
 };
 
 function numStarsForProject(repo) {
@@ -23,9 +23,9 @@ function numStarsForProject(repo) {
     console.info(`Trying ${repoWithDashes}`);
     var ghrepo = tryGetRepo(repoWithDashes);
 
-    return ghrepo.stargazersAsync().then(function(stars) {
-        return stars[0].length;
-    }).catch(function(err) {
+    return ghrepo.infoAsync().then( (info) => {
+        return info[0].stargazers_count;
+    }).catch( (err) => {
         // Try against, but with no spaces
         if (repo.indexOf(' ') !== -1) {
             return numStarsForProject(repo.replaceAll(" ", ""));

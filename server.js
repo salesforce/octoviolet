@@ -31,6 +31,7 @@ violet.respondTo({
         'How many stars does the [[repo]] repo have?'
     ],
     resolve: async function (response) {
+
         const num = await github.numStarsForProject(response.get('repo'));
         if (num === -1) {
             response.say(`[[repo]] not found on github, please try again`);
