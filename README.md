@@ -1,4 +1,6 @@
-## Violet GitHub
+## OctoViolet
+
+A sample voice UI for GitHub the uses [Violet](https://github.com/salesforce/violet-conversations)
 
 # Setup
 
