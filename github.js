@@ -25,10 +25,10 @@ String.prototype.replaceAll = function(search, replacement) {
 };
 
 function numStarsForProject(repo) {
-    var repoWithDashes = repo.replaceAll(" ", "-");
+    const repoWithDashes = repo.replaceAll(" ", "-");
 
     console.info(`Trying ${repoWithDashes}`);
-    var ghrepo = tryGetRepo(repoWithDashes);
+    const ghrepo = tryGetRepo(repoWithDashes);
 
     return ghrepo.infoAsync().then( (info) => {
         return info[0].stargazers_count;
